@@ -2,55 +2,35 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>I love u, 周小淇</title>
+  <title>I love u, ZXQ</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
-    body {
+    html, body {
       margin: 0;
       padding: 0;
-      background: linear-gradient(to top right, #ffe4e1, #ffc0cb);
+      background: linear-gradient(135deg, #ffc0cb, #ffe4e1);
+      height: 100%;
       font-family: 'Segoe UI', cursive;
-      overflow-x: hidden;
+      overflow: hidden;
     }
 
     h1 {
-      text-align: center;
-      margin-top: 50px;
+      position: absolute;
+      top: 40%;
+      left: 50%;
+      transform: translate(-50%, -50%);
       color: white;
       font-size: 3em;
-      text-shadow: 2px 2px 8px rgba(255, 105, 180, 0.8);
+      text-shadow: 2px 2px 10px rgba(255, 105, 180, 0.7);
     }
 
-    .photo-wall {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      margin: 50px 20px;
-    }
-
-    .photo-wall img {
-      width: 200px;
-      height: 200px;
-      object-fit: cover;
-      margin: 10px;
-      border-radius: 15px;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-      transition: transform 0.3s ease;
-    }
-
-    .photo-wall img:hover {
-      transform: scale(1.05);
-    }
-
-    /* Heart animation */
     .heart {
-      position: fixed;
+      position: absolute;
       width: 20px;
       height: 20px;
       background-color: pink;
       transform: rotate(45deg);
       animation: float 8s infinite ease-in;
-      z-index: 0;
     }
 
     .heart::before,
@@ -85,31 +65,49 @@
         transform: translateX(100px) rotate(45deg);
       }
     }
+    
+    /* 新添加的导航样式 */
+    .nav-container {
+      position: absolute;
+      bottom: 15%;
+      left: 50%;
+      transform: translateX(-50%);
+      text-align: center;
+      z-index: 100;
+    }
+    
+    .nav-link {
+      display: inline-block;
+      margin: 0 15px;
+      padding: 12px 25px;
+      background-color: rgba(255, 255, 255, 0.7);
+      border-radius: 25px;
+      color: #ff69b4;
+      text-decoration: none;
+      font-weight: bold;
+      font-size: 1.2em;
+      box-shadow: 0 4px 8px rgba(255, 105, 180, 0.3);
+      transition: all 0.3s ease;
+    }
+    
+    .nav-link:hover {
+      background-color: white;
+      transform: translateY(-5px);
+      box-shadow: 0 6px 12px rgba(255, 105, 180, 0.5);
+    }
   </style>
 </head>
 <body>
 
-  <h1>I love u, 周小淇 💗</h1>
-
-  <!-- Photo wall -->
-  <div class="photo-wall">
-    <img src="images/1.jpg" alt="1">
-    <img src="images/2.jpg" alt="2">
-    <img src="images/3.jpg" alt="3">
-    <img src="images/4.jpg" alt="4">
-    <img src="images/5.jpg" alt="5">
-    <img src="images/6.jpg" alt="6">
-    <img src="images/7.jpg" alt="7">
-    <!-- Add more as needed -->
+  <h1>I love u，ZXQ 💖</h1>
+  
+  <!-- 新添加的导航链接 -->
+  <div class="nav-container">
+    <a href="menu.html" class="nav-link">我们的小家菜单</a>
+    <a href="v1.html" class="nav-link">我们的照片时间线</a>
   </div>
 
-  <!-- Background music -->
-  <audio autoplay loop>
-    <source src="music.mp3" type="audio/mpeg">
-    Your browser does not support the audio element.
-  </audio>
-
-  <!-- Floating hearts animation -->
+  <!-- Floating hearts -->
   <script>
     function createHeart() {
       const heart = document.createElement("div");
@@ -119,8 +117,9 @@
       document.body.appendChild(heart);
       setTimeout(() => heart.remove(), 10000);
     }
-    setInterval(createHeart, 400);
+    setInterval(createHeart, 500);
   </script>
 
 </body>
 </html>
+

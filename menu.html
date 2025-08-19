@@ -1,0 +1,329 @@
+
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>家庭菜单 - 美食计划</title>
+  <style>
+    :root {
+      --primary-color: #ff7043;
+      --secondary-color: #2196f3;
+      --text-color: #333;
+      --light-bg: #f9f9f9;
+      --card-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+    
+    body {
+      font-family: "Microsoft YaHei", sans-serif;
+      background: var(--light-bg);
+      margin: 0;
+      padding: 0;
+      color: var(--text-color);
+    }
+    
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    
+    header {
+      text-align: center;
+      padding: 30px 0;
+      background: linear-gradient(135deg, #ff9800, #ff5722);
+      color: white;
+      border-radius: 0 0 20px 20px;
+      margin-bottom: 30px;
+      box-shadow: var(--card-shadow);
+    }
+    
+    h1 {
+      margin: 0;
+      font-size: 2.5rem;
+    }
+    
+    .subtitle {
+      font-size: 1.2rem;
+      margin-top: 10px;
+      opacity: 0.9;
+    }
+    
+    .menu-section {
+      background: white;
+      border-radius: 10px;
+      padding: 20px;
+      margin-bottom: 30px;
+      box-shadow: var(--card-shadow);
+      transition: transform 0.3s ease;
+    }
+    
+    .menu-section:hover {
+      transform: translateY(-5px);
+    }
+    
+    .menu-section h2 {
+      color: var(--primary-color);
+      border-left: 6px solid var(--primary-color);
+      padding-left: 15px;
+      display: flex;
+      align-items: center;
+      margin-top: 0;
+    }
+    
+    .menu-section h2 .emoji {
+      margin-right: 10px;
+      font-size: 1.5em;
+    }
+    
+    .menu-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 20px;
+      padding: 0;
+    }
+    
+    .menu-item {
+      background: var(--light-bg);
+      border-radius: 8px;
+      padding: 15px;
+      transition: all 0.3s ease;
+      position: relative;
+      list-style: none;
+    }
+    
+    .menu-item:hover {
+      background: #fff;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    }
+    
+    .menu-item a {
+      text-decoration: none;
+      color: var(--text-color);
+      font-weight: bold;
+      display: block;
+      margin-bottom: 5px;
+    }
+    
+    .menu-item a:hover {
+      color: var(--primary-color);
+    }
+    
+    .note {
+      color: #666;
+      font-size: 0.9rem;
+      display: block;
+    }
+    
+    .tag {
+      display: inline-block;
+      background: var(--secondary-color);
+      color: white;
+      font-size: 0.7rem;
+      padding: 2px 8px;
+      border-radius: 20px;
+      margin-top: 8px;
+      margin-right: 5px;
+    }
+    
+    .difficulty {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      font-size: 0.8rem;
+    }
+    
+    .easy { color: #4caf50; }
+    .medium { color: #ff9800; }
+    .hard { color: #f44336; }
+    
+    footer {
+      text-align: center;
+      margin-top: 40px;
+      padding: 20px;
+      color: #666;
+      font-size: 0.9rem;
+    }
+    
+    @media (max-width: 768px) {
+      .menu-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      header {
+        border-radius: 0;
+      }
+      
+      h1 {
+        font-size: 2rem;
+      }
+    }
+    
+    .filter-buttons {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 30px;
+    }
+    
+    .filter-button {
+      background: white;
+      border: 2px solid var(--primary-color);
+      color: var(--primary-color);
+      padding: 8px 15px;
+      border-radius: 30px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: all 0.3s;
+    }
+    
+    .filter-button:hover, .filter-button.active {
+      background: var(--primary-color);
+      color: white;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>🍽️ Home Sweet Home's Menu
+    </h1>
+    <div class="subtitle">yummy</div>
+  </header>
+  
+  <div class="container">
+    <div class="filter-buttons">
+      <button class="filter-button active">全部</button>
+      <button class="filter-button">炒锅</button>
+      <!-- <button class="filter-button">健康</button> -->
+      <!-- <button class="filter-button">家常</button> -->
+    </div>
+  
+    <div class="menu-section">
+      <h2><span class="emoji">🌞</span>Breakfast</h2>
+      <ul class="menu-grid">
+        <li class="menu-item">
+          <a href="https://www.xiachufang.com/recipe/103468406/" target="_blank">虾仁滑蛋</a>
+          <span class="note"></span>
+          <div>
+            <span class="tag">炒锅</span>
+            <!-- <span class="tag">家常</span> -->
+          </div>
+          <div class="difficulty easy">简单</div>
+        </li>
+        <li class="menu-item">
+          <a href="#">山姆奶味小面包</a>
+          <span class="note">蒸5-10分钟</span>
+          <div>
+            <span class="tag">蒸笼</span>
+          </div>
+          <div class="difficulty easy">简单</div>
+        </li>
+        <li class="menu-item">
+          <a href="#">可颂</a>
+          <span class="note"></span>
+          <div>
+            <span class="tag">空气炸锅</span>
+          </div>
+          <div class="difficulty easy">简单</div>
+        </li>
+      </ul>
+    </div>
+  
+    <div class="menu-section">
+      <h2><span class="emoji">🍲</span>Lunch</h2>
+      <ul class="menu-grid">
+        <li class="menu-item">
+          <a href="https://xhslink.com/m/8nuZjWtj2cX " target="_blank">牛丼</a>
+
+          <span class="note">日式牛肉洋葱盖饭</span>
+          <div>
+            <span class="tag">炒锅</span>
+          </div>
+          <div class="difficulty easy">简单</div>
+        </li>
+        <li class="menu-item">
+          <a href="https://www.xiachufang.com/recipe/104493058/" target="_blank">西红柿炒鸡蛋</a>
+
+          <span class="note"></span>
+          <div>
+            <span class="tag">炒锅</span>
+            <!-- <span class="tag">家常</span> -->
+          </div>
+          <div class="difficulty easy">简单</div>
+        </li>
+        <li class="menu-item">
+          <a href="https://www.xiachufang.com/recipe/107105990/" target="_blank">肉沫茄子/肉沫冬瓜</a>
+
+          <span class="note"></span>
+          <div>
+            <span class="tag">炒锅</span>
+          </div>
+          <div class="difficulty easy">简单</div>
+        </li>
+      </ul>
+    </div>
+  
+    <div class="menu-section">
+      <h2><span class="emoji">🌙</span>Dinner</h2>
+      <ul class="menu-grid">
+        <li class="menu-item">
+          <a href="https://www.xiachufang.com/recipe/104514730/" target="_blank">清炖鸡汤</a>
+          <span class="note">大火转小火炖90min</span>
+          <div>
+            <span class="tag">炖锅</span>
+          </div>
+          <div class="difficulty hard">困难</div>
+        </li>
+      </ul>
+    </div>
+    
+    <div class="menu-section">
+      <h2><span class="emoji">🍰</span>Dessert</h2>
+      <ul class="menu-grid">
+        <li class="menu-item">
+          <a href="#">念念特调-抹茶</a>
+          <span class="note"></span>
+          <div class="difficulty easy">简单</div>
+        </li>
+
+      </ul>
+    </div>
+  </div>
+  
+  <footer>
+    <p>menu &copy; 2025 - niannian & chaochao</p>
+  </footer>
+  
+  <script>
+    // 简单的筛选功能
+    document.querySelectorAll('.filter-button').forEach(button => {
+      button.addEventListener('click', function() {
+        // 移除所有按钮的active类
+        document.querySelectorAll('.filter-button').forEach(btn => {
+          btn.classList.remove('active');
+        });
+        
+        // 给当前点击的按钮添加active类
+        this.classList.add('active');
+        
+        const filter = this.textContent.trim();
+        
+        // 显示或隐藏菜单项
+        document.querySelectorAll('.menu-item').forEach(item => {
+          if (filter === '全部') {
+            item.style.display = 'block';
+          } else {
+            const tags = Array.from(item.querySelectorAll('.tag')).map(tag => tag.textContent.trim());
+            if (tags.includes(filter)) {
+              item.style.display = 'block';
+            } else {
+              item.style.display = 'none';
+            }
+          }
+        });
+      });
+    });
+  </script>
+</body>
+</html>
