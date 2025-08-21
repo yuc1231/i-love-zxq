@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Heart Gallery</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      margin: 0;
+      background: radial-gradient(circle at center, #ffe4e1 0%, #ffc0cb 100%);
+      font-family: 'Segoe UI', cursive;
+      min-height: 100vh;
+    }
+
+    h1 {
+      text-align: center;
+      padding: 40px 10px 10px;
+      font-size: 2.5em;
+      color: #d63384;
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+    }
+
+    .heart-gallery {
+      width: 90vw;
+      margin: 40px auto;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+      grid-gap: 15px;
+      position: relative;
+      padding: 20px;
+      background-color: rgba(255, 255, 255, 0.3);
+      border-radius: 20px;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    }
+
+    .heart-gallery img {
+      width: 100%;
+      height: 150px;
+      object-fit: cover;
+      border-radius: 10px;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      cursor: pointer;
+    }
+
+    .heart-gallery img:hover {
+      transform: scale(1.05);
+      box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+    }
+
+    .message {
+      text-align: center;
+      margin: 50px 20px;
+    }
+
+    .reveal-button {
+      padding: 14px 28px;
+      font-size: 18px;
+      background-color: #f06292;
+      color: white;
+      border: none;
+      border-radius: 30px;
+      cursor: pointer;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+      transition: all 0.3s ease;
+    }
+
+    .reveal-button:hover {
+      background-color: #e91e63;
+      transform: scale(1.05);
+    }
+
+    #loveMessage {
+      display: none;
+      font-size: 2em;
+      color: #c2185b;
+      margin-top: 30px;
+      animation: fadeIn 1s ease-in-out;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: scale(0.8); }
+      to { opacity: 1; transform: scale(1); }
+    }
+
+    /* 图片模态框样式 */
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 1000;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0,0,0,0.9);
+      overflow: auto;
+    }
+
+    .modal-content {
+      margin: auto;
+      display: block;
+      max-width: 90%;
+      max-height: 90%;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      border: 3px solid #fff;
+      border-radius: 5px;
+    }
+
+    .close {
+      position: absolute;
+      top: 15px;
+      right: 35px;
+      color: #f1f1f1;
+      font-size: 40px;
+      font-weight: bold;
+      transition: 0.3s;
+      cursor: pointer;
+    }
+
+    .close:hover {
+      color: #bbb;
+    }
+
+    @media screen and (max-width: 768px) {
+      .heart-gallery {
+        grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+      }
+      
+      .heart-gallery img {
+        height: 120px;
+      }
+    }
+
+    @media screen and (max-width: 480px) {
+      .heart-gallery {
+        grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+        width: 95vw;
+      }
+      
+      .heart-gallery img {
+        height: 100px;
+      }
+      
+      h1 {
+        font-size: 2em;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <h1>❤️ Our Memories ❤️</h1>
+
+  <!-- 照片墙 -->
+  <div class="heart-gallery" id="gallery">
+    <!-- 图片将通过JavaScript动态加载 -->
+  </div>
+
+  <!-- 图片模态框 -->
+  <div id="imageModal" class="modal">
+    <span class="close">&times;</span>
+    <img class="modal-content" id="modalImg">
+  </div>
+
+  <!-- 消息显示 -->
+  <div class="message">
+    <button class="reveal-button" onclick="revealLove()">💌</button>
+    <div id="loveMessage">I love u 💖</div>
+  </div>
+
+  <script>
+    // 可用的图片列表
+    const images = [
+      "images/20220529_232532575_iOS.jpg",
+      "images/20220530_205445000_iOS.jpg",
+      "images/20220602_221403000_iOS.jpg",
+      "images/20220604_004126000_iOS.jpg",
+      "images/20220620_010642731_iOS.jpg",
+      "images/20220624_071540949_iOS.jpg"
+      // 注意：移除了.heic格式的图片，因为浏览器可能无法直接显示
+      // 如果您想使用这些图片，需要先将它们转换为jpg或png格式
+    ];
+
+    // 动态加载图片
+    const gallery = document.getElementById('gallery');
+    
+    // 加载图片函数
+    function loadImages() {
+      images.forEach(src => {
+        const img = document.createElement('img');
+        img.src = src;
+        img.alt = "Memory Photo";
+        img.onclick = function() { openModal(this.src); };
+        gallery.appendChild(img);
+      });
+    }
+
+    // 页面加载完成后执行
+    window.onload = function() {
+      loadImages();
+    };
+
+    // 显示爱心消息
+    function revealLove() {
+      document.getElementById("loveMessage").style.display = "block";
+    }
+
+    // 图片模态框功能
+    const modal = document.getElementById("imageModal");
+    const modalImg = document.getElementById("modalImg");
+    const closeBtn = document.getElementsByClassName("close")[0];
+
+    function openModal(imgSrc) {
+      modal.style.display = "block";
+      modalImg.src = imgSrc;
+    }
+
+    // 点击关闭按钮关闭模态框
+    closeBtn.onclick = function() {
+      modal.style.display = "none";
+    }
+
+    // 点击模态框外部关闭模态框
+    window.onclick = function(event) {
+      if (event.target == modal) {
+        modal.style.display = "none";
+      }
+    }
+  </script>
+
+</body>
+</html>
