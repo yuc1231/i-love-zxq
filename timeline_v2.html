@@ -1,15 +1,19 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-CN">
 <head>
   <meta charset="UTF-8">
-  <title>Heart Gallery</title>
+  <title>念念和超超</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
+    * {
+      box-sizing: border-box;
+    }
     body {
       margin: 0;
-      background: radial-gradient(circle at center, #ffe4e1 0%, #ffc0cb 100%);
-      font-family: 'Segoe UI', cursive;
+      background: linear-gradient(135deg, #ffe4e1 0%, #ffc0cb 100%);
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       min-height: 100vh;
+      color: #333;
     }
 
     h1 {
@@ -18,50 +22,165 @@
       font-size: 2.5em;
       color: #d63384;
       text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+      margin: 0;
     }
 
-    .heart-gallery {
-      width: 90vw;
-      margin: 40px auto;
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-      grid-gap: 15px;
+    .intro {
+      text-align: center;
+      color: #c2185b;
+      margin-bottom: 40px;
+      font-size: 1.1em;
+      padding: 0 20px;
+    }
+
+    /* 时间轴主容器 */
+    .timeline {
       position: relative;
+      max-width: 900px;
+      margin: 0 auto;
       padding: 20px;
-      background-color: rgba(255, 255, 255, 0.3);
+    }
+
+    /* 贯穿中间的垂直线 */
+    .timeline::after {
+      content: '';
+      position: absolute;
+      width: 4px;
+      background-color: #f06292;
+      top: 0;
+      bottom: 0;
+      left: 50%;
+      margin-left: -2px;
+      border-radius: 2px;
+    }
+
+    /* 单个时间节点容器 */
+    .timeline-item {
+      padding: 10px 40px;
+      position: relative;
+      background-color: inherit;
+      width: 50%;
+      margin-bottom: 30px;
+    }
+
+    /* 左侧和右侧的区分 */
+    .timeline-item.left {
+      left: 0;
+    }
+    .timeline-item.right {
+      left: 50%;
+    }
+
+    /* 时间轴上的圆点 */
+    .timeline-item::after {
+      content: '❤️';
+      position: absolute;
+      width: 32px;
+      height: 32px;
+      right: -16px;
+      background-color: white;
+      border: 3px solid #f06292;
+      top: 20px;
+      border-radius: 50%;
+      z-index: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      box-shadow: 0 0 10px rgba(240, 98, 146, 0.4);
+    }
+    .timeline-item.right::after {
+      left: -16px;
+    }
+
+    /* 故事内容卡片 */
+    .timeline-content {
+      padding: 20px;
+      background-color: rgba(255, 255, 255, 0.85);
+      position: relative;
+      border-radius: 15px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .timeline-content:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+    }
+
+    .timeline-date {
+      color: #d63384;
+      font-weight: bold;
+      font-size: 1.1em;
+      margin-bottom: 10px;
+      display: inline-block;
+      background: #fce4ec;
+      padding: 4px 12px;
       border-radius: 20px;
-      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
     }
 
-    .heart-gallery img {
+    .timeline-title {
+      margin: 0 0 10px 0;
+      font-size: 1.4em;
+      color: #c2185b;
+    }
+
+    .timeline-text {
+      line-height: 1.6;
+      margin-bottom: 15px;
+      color: #555;
+    }
+
+    /* 卡片内的照片容器（支持多图网格） */
+    .timeline-images {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+      gap: 10px;
+      margin-top: 10px;
+    }
+
+    /* 如果只有单张图片，允许大图显示 */
+    .timeline-images.single-image {
+      display: block;
+    }
+    .timeline-images.single-image .timeline-img {
+      max-height: 300px;
+      height: auto;
+    }
+
+    /* 卡片内的单张/多张照片 */
+    .timeline-img {
       width: 100%;
-      height: 150px;
+      height: 140px; /* 多图时的默认固定高度，保证网格整齐 */
       object-fit: cover;
-      border-radius: 10px;
-      transition: all 0.3s ease;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      border-radius: 8px;
       cursor: pointer;
+      transition: opacity 0.3s, transform 0.3s;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      margin-bottom: 5px;
     }
 
-    .heart-gallery img:hover {
-      transform: scale(1.05);
-      box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+    .timeline-img:hover {
+      opacity: 0.85;
+      transform: scale(1.02);
     }
 
-    .message {
+    /* 底部按钮区 */
+    .footer-message {
       text-align: center;
       margin: 50px 20px;
+      padding-bottom: 50px;
     }
 
     .reveal-button {
-      padding: 14px 28px;
+      padding: 12px 30px;
       font-size: 18px;
       background-color: #f06292;
       color: white;
       border: none;
       border-radius: 30px;
       cursor: pointer;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+      box-shadow: 0 4px 10px rgba(240, 98, 146, 0.4);
       transition: all 0.3s ease;
     }
 
@@ -72,18 +191,18 @@
 
     #loveMessage {
       display: none;
-      font-size: 2em;
+      font-size: 1.8em;
       color: #c2185b;
-      margin-top: 30px;
+      margin-top: 20px;
       animation: fadeIn 1s ease-in-out;
     }
 
     @keyframes fadeIn {
-      from { opacity: 0; transform: scale(0.8); }
-      to { opacity: 1; transform: scale(1); }
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
     }
 
-    /* 图片模态框样式 */
+    /* 照片放大模态框样式 */
     .modal {
       display: none;
       position: fixed;
@@ -92,141 +211,390 @@
       top: 0;
       width: 100%;
       height: 100%;
-      background-color: rgba(0,0,0,0.9);
-      overflow: auto;
+      background-color: rgba(0,0,0,0.85);
+      backdrop-filter: blur(5px);
     }
 
     .modal-content {
       margin: auto;
       display: block;
       max-width: 90%;
-      max-height: 90%;
+      max-height: 90vh;
       position: absolute;
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
       border: 3px solid #fff;
-      border-radius: 5px;
+      border-radius: 8px;
+      box-shadow: 0 0 20px rgba(255,255,255,0.3);
     }
 
     .close {
       position: absolute;
-      top: 15px;
+      top: 20px;
       right: 35px;
       color: #f1f1f1;
       font-size: 40px;
       font-weight: bold;
       transition: 0.3s;
       cursor: pointer;
+      z-index: 1001;
     }
 
     .close:hover {
-      color: #bbb;
+      color: #ff4081;
     }
 
+    /* 响应式设计：移动端适配 */
     @media screen and (max-width: 768px) {
-      .heart-gallery {
-        grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+      .timeline::after {
+        left: 31px;
       }
-      
-      .heart-gallery img {
-        height: 120px;
+      .timeline-item {
+        width: 100%;
+        padding-left: 70px;
+        padding-right: 25px;
       }
-    }
-
-    @media screen and (max-width: 480px) {
-      .heart-gallery {
-        grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
-        width: 95vw;
+      .timeline-item.right {
+        left: 0;
       }
-      
-      .heart-gallery img {
-        height: 100px;
-      }
-      
-      h1 {
-        font-size: 2em;
+      .timeline-item.left::after, .timeline-item.right::after {
+        left: 15px;
       }
     }
   </style>
 </head>
 <body>
 
-  <h1>❤️ Our Memories ❤️</h1>
+  <h1>❤️ 我们的故事 ❤️</h1>
+  <p class="intro">一些一辈子都不想忘记的瞬间</p>
 
-  <!-- 照片墙 -->
-  <div class="heart-gallery" id="gallery">
-    <!-- 图片将通过JavaScript动态加载 -->
+  <!-- 时间轴容器 -->
+  <div class="timeline" id="timeline-container">
+    <!-- 节点内容将通过JavaScript动态加载 -->
   </div>
 
-  <!-- 图片模态框 -->
+  <!-- 图片放大模态框 -->
   <div id="imageModal" class="modal">
     <span class="close">&times;</span>
     <img class="modal-content" id="modalImg">
   </div>
 
-  <!-- 消息显示 -->
-  <div class="message">
-    <button class="reveal-button" onclick="revealLove()">💌</button>
-    <div id="loveMessage">I love u 💖</div>
+  <!-- 底部惊喜 -->
+  <div class="footer-message">
+    <button class="reveal-button" id="revealBtn" onclick="revealLove()">💌 点开有一句悄悄话</button>
+    <div id="loveMessage">我爱你！我超级超级超级爱你！未完待续... 💖</div>
   </div>
 
   <script>
-    // 可用的图片列表
-    const images = [
-      "images/20220529_232532575_iOS.jpg",
-      "images/20220530_205445000_iOS.jpg",
-      "images/20220602_221403000_iOS.jpg",
-      "images/20220604_004126000_iOS.jpg",
-      "images/20220620_010642731_iOS.jpg",
-      "images/20220624_071540949_iOS.jpg"
-      // 注意：移除了.heic格式的图片，因为浏览器可能无法直接显示
-      // 如果您想使用这些图片，需要先将它们转换为jpg或png格式
+    // ==========================================
+    // 故事数据配置区：你可以在这里随意添加或修改故事内容
+    // 格式：
+    // 单图：{ date: "日期", title: "标题", text: "故事文字", image: "照片路径" }
+    // 多图：{ date: "日期", title: "标题", text: "故事文字", images: ["照片路径1", "照片路径2"] }
+    // ==========================================
+    const storyData = [
+      {
+        date: "2022年2月9日",
+        title: "我们第一次的聊天记录！",
+        text: "",
+        image: "images/20220209.jpg"
+      },
+      {
+        date: "2022年2月25日",
+        title: "和你慢慢熟络的那些天",
+        text: "刚认识你的时候，我们从聊留学生活、旅行见闻、美食探店，到分享彼此在追的电视剧，再到后来分享抖音和慢慢聊起日常的点点滴滴。" + 
+        "和你聊天，总让我有一种很自然的放松感，好像再普通的话题，也能变得有温度" + 
+        // "你总能在我不经意间情绪低落的时候察觉到我的变化，那种细腻和体贴，是一种很温柔的力量。虽然这是偏向为他人着想的性格，但我却越来越觉得，这是你身上特别珍贵的一部分。而在那些日常的对话里，从你软软的语气和偶尔带点撒娇的声音中，我又隐约感受到一种不张扬的坚韧。你看起来温柔可爱，但其实内心很坚定、有力量。" +
+        "也许正是这些点滴，让我在不知不觉中，对你多了很多在意。",
+        image: "images/20220224.jpg"
+      },
+      {
+        date: "2022年3月18日",
+        title: "我决定向你走近的那一天",
+        text: "你生日在坎昆的时候给我发了一张在沙滩上写我名字的照片，那一刻我忽然有种很特别的感觉，好像我们之间有一种说不清的默契和心灵感应——原来你看到的、在意的，" +
+        "和我表达的，是能对上的。那也是我第一次认真意识到，也许我们是心意相通的。其实一直以来，我都不太有勇气去向喜欢的女生表达自己的心意，" +
+        "总觉得会打破原有的平衡，也害怕没有回应。但那一刻，我突然不想再退缩了。哪怕我们相隔数千公里，这段距离看起来那么不现实，我还是想勇敢一次。" +
+        "因为只有勇敢，我们才会有可能。",
+        image: "images/20220318.jpg"
+      },
+      {
+        date: "2022年3月22日",
+        title: "我表白啦！我想和你在一起！",
+        text: "那一刻，其实我心里的声音有点吵，天呐，天呐，天呐，我们真的在一起了！从那一天开始，好像连周围的一切都变得不一样了。空气是轻的，也是甜的，" +
+        "连呼吸都带着一点不真实的幸福感。也是在那时候，我第一次那么坚定地做了一个决定：等final一结束，我就去美国找你。",
+        image: "images/20220322.jpg"
+      },
+      {
+        date: "2022年4月22日",
+        title: "宝贝一个月快乐~",
+        text: "在我们在一起的第一个月里，虽然没办法真正陪在彼此身边，但我们还是用自己的方式，把陪伴填满了日常。我们会给对方买花、送奶茶和小蛋糕，" + 
+        "让那些原本普通的一天，也多了一点被惦记的温度。好像距离并没有真的把我们分开，反而让这些细小的心意变得更加清晰。也是在这样的日常里，我慢慢发现，你真的很甜。" + 
+        "那种甜，不只是表面的可爱，而是一种会认真对待彼此、把温柔落在细节里的感觉。",
+        // image: "images/20220422.jpg"
+        images:[
+          "images/20220422.jpg",
+          "images/20220422_2.jpg",
+        ]
+      },
+      {
+        date: "2022年5月27日",
+        title: "！！！顺利抵达纽约JFK，我们见面啦！！！",
+        text: "一路上我又开心又激动又紧张，咱就是说，真嘟很担心如果你见到我的第一眼就转头回家怎么办。可当我真正见到你的那一刻，所有的顾虑都消失了。" + 
+        "你比我想象中还要好看，连声音也是如此甜美。那一瞬间，我脑子里只剩下一个念头：这真的是我的女朋友吗？好像有点不太敢相信。",
+        image: "images/20220527.jpg"
+      },
+      {
+        date: "2022年5月29日",
+        title: "我们的纽约之旅",
+        text: "我们两个云吃搭子终于在现实里完成了打卡hhh，在法拉盛吃上了心心念念的重庆火锅。吃完饭，我们一起散步，还拍下了属于我们的影子。" +
+        "我们还去了韩国城一家烤肉店，还打卡了海底捞，我还带你成功种草了bluebottle！我记得我们悠哉的在纽约街头散步，哼着周董的晴天。" +
+        "我们还在 Bryant Park 里随意坐了一会儿，正好看到一场很美的橙色日落，把整个城市都染得很温柔。那一天，好像每一件小事，都刚刚好。",
+        // image: "images/20220529.jpg"
+        images:[
+          "images/20220529.jpg",
+          "images/20220529_2.jpg",
+          "images/20220529_3.jpg"
+        ]
+      },
+      {
+        date: "2022年5月30日",
+        title: "出发奥兰多！！！",
+        text: "第一次和念念一起坐飞机，好激动好开心！你说过很喜欢和我坐飞机，我又何尝不是呢！嘿嘿！准备和念念开启我们的度假时光~",
+        image: "images/20220530.jpg"
+      },
+      {
+        date: "2022年6月1日",
+        title: "小城夏天！！！",
+        text: "橘黄色的日落沉没在海平线~这个bgm伴随着我们这个无敌高光的夏天！迪士尼！环球影城！" + 
+        "最难忘的瞬间是，我们一起淋湿看着落日飞车，开心的停不下来！我们先后租了两个超大的house，我们一起煮火锅，火鸡面，番茄面，宅在家里看剧看怪奇物语。" + 
+        "还去了tampa无敌美的clearwater beach，我们还淋着雨听到了charlie puth的live show! " +
+        "当我看着照片回忆我们过去的时光，我再次深刻意识到，眼睛所捕捉的美好，是任何照片和文字都无法完全记录的。",
+        image: "images/20220602.jpg"
+      },
+      {
+        date: "2022年6月22日",
+        title: "和念念的环球旅行之加州自驾篇",
+        text: "记得在天文台，本来有路可以走，但我们偏要挑战那条小土坡，念念狼狈爬完的样子可爱极了。" + 
+        "还去了风景特别美的 Santa Monica海滩，在海滩旁的小游乐园坐了落日摩天轮，真是绝美 " +
+        "还开车去了Hollywood sign拍照片，但最难忘的还是 Monterey——我们骑着单车沿着绝美海岸线欣赏风景，还发现了一个小松鼠乐园，可爱得让人心都化了。" +
+        "在 Monterey，我们还吃到了至今最好吃的生蚝和菠萝果汁。随着旅行渐渐进入尾声，我能感受到你开始有些舍不得和难过，我也一样。",        
+        image: "images/20220620.jpg"
+      },
+      {
+        date: "2022年7月1日",
+        title: "旅途结束，陪念念开始新的人生副本-巴尔的摩JHU",
+        text: "原本今天是分别的日子，我已经坐上了去纽约的飞机。你依然坚持送我过去，但在落地的那一刻，我突然做了一个重要的决定——延迟回伦敦。因为舍不得你，这种情绪变得无比清晰。" + 
+        "也正因如此，我们意外地多出了半个月，可以继续陪伴在彼此身边。回到 DC，我们去了我一直想去的海鲜餐厅，还吃了超级好吃的 Omakase，也庆祝了我们的 100 天纪念日。" + 
+        "打卡了 College Park 我的母校，" + 
+        "在石头城吃火锅、烤肉、早茶，还一起看了电影。这段时间虽然忙碌，却充满了美好。回到巴尔的摩，我们把念念的行李搬到新家，" + 
+        "一点点把床、书桌、椅子都安置好，慢慢把属于我们的临时小家布置完整。" + 
+        "因为离我们分别的日子不久了，我的心情也开始焦虑起来，更加珍惜每一刻和你在一起的时光。",
+        image: "images/20220630.jpg"
+      },
+      { 
+        date: "2022年7月11日",
+        title: "接咱们的臭儿子yuni回家",
+        text: "我们在纽约接到了yuni, 从韩国独自坐十几个小时飞机来找爸爸妈妈的小勇士! 刚到家，它就是一个沾满自己尿的小白黄团，可爱死了。" + 
+        "性格活泼，胆子很小，哈哈哈反差萌。你那脆弱肠胃差点把爸妈整累死了，我们以为你吃坏肚子、细小病毒，反复跑去看医生，" + 
+        "每次大老远跑去付 100 刀，医生却说没事，真让你妈妈操碎了心。",
+        image: "images/20220711.jpg"
+      },
+      {
+        date: "2022年7月18日",
+        title: "我真的很舍不得你！",
+        text: "这是我从小到大哭得最惨的一次，没有之一。（虽然也不是什么值得骄傲的事哈哈，只是以前的我谈恋爱几乎不会掉眼泪。）" +
+        "感觉念念是上天给我的宝藏，遇见你真的好开心啦，和你在一起的每一刻真的好幸福好幸福，" + 
+        "你总能在我不经意间情绪低落的时候察觉到我的变化，那种细腻和体贴，是一种很温柔的力量。虽然这是利他的性格，但我却越来越觉得，这是你身上特别珍贵的一部分。而在那些日常的对话里，从你软软的语气和偶尔带点撒娇的声音中，我又隐约感受到一种不张扬的坚韧。你看起来温柔可爱，但其实内心很坚定、有力量。" +
+        "这个夏天我们完成了好多我表白你时想和你做的愿望清单呀~一起看星星，吹海风，海边散步，看日落，看日出，一起去游乐园，去对方的学校，还有好多好多，数都数不完。" + 
+        "我很幸运可以遇到你，认识你，爱上你。直到写下这些文字的这一刻，我依然这样觉得。",
+        // image: "images/20220718.jpg"
+        images:[
+          "images/20220718.jpg",
+          "images/20220718_2.jpg",
+          "images/20220718_3.jpg"
+        ]
+      },
+      {
+        date: "2022年8月-12月",
+        title:"我们要异国恋整整五个月，153天",
+        text: "我开始了在伦敦的工作与生活，但刚和你分开的那种刺痛，还是会时不时涌上来。有时候真的会难受，现在回想起来，依然能清晰地感受到当时的那种情绪。" + 
+        "身边一起玩、一起生活的同学也慢慢离开了伦敦，日子变得很安静、很单调。每天除了工作，好像就只剩下想你。" +
+        "我知道我离开你也同样的难受，真的很希望我的云陪伴能让你好一些，我记得我们当时在一起追鲸鱼律师，很好看！我们打着facetime一起看剧，真嘟很治愈，我们还一起玩羊了个羊！" +
+        "和宝贝打电话是这段时间我最治愈的时刻。小王子里有句话特别像我的心情，如果你说你在下午四点来，从三点钟开始，我就开始感觉很快乐，时间越临近我就越来越感到快乐！" +
+        "宝贝特别贴心，时不时给我买礼物，点奶茶。我记得你送我了一颗星星，叫Nian&Chao!我记得我送你了一条viviennewestwood的珍珠项链！" + 
+        "你还送我一串手链，上面刻着you are my priority! 你还给我买了巴黎世家的鞋子！" + 
+        "不过那条围巾是我最宝贝的，因为真的有在伦敦的冬天暖到我的心。直到你在11月5日决定了来伦敦的机票，我的生活才重新有了期待。" ,
+        image: "images/20220922.jpg"
+      },
+      {
+        date: "2022年12月18日-2023年1月4日",
+        title:"宝贝来伦敦啦！",
+        text: "真的很开心你会来伦敦找我，那一刻让我真切地感受到什么叫双向奔赴，特别感动。在伦敦我们还是一如既往地吃吃吃——幸福堂、麻辣烫、圣诞节的惠灵顿牛排、米三 Core！" + 
+        "还有一起煮了热腾腾的红酒。你为我准备的生日让我特别难忘，还有伦敦的跨年烟花，真的封神！虽然我们最大的一次不愉快也是从伦敦开始的，但这些都不妨碍这里依然承载着一段很美好的回忆。" ,
+        images:[
+          "images/20221218.jpg",
+          "images/20221218_2.jpg",
+          "images/20221218_3.jpg",
+          "images/20221218_4.jpg"
+        ]
+      },
+      {
+        date: "2023年1月20日",
+        title:"我们一起回巴尔的摩啦！",
+        text: "我们一起回到了巴尔的摩，也终于可以见到长大一点的 Yuni，还能和你有更多时间待在一起。我们一起遛 Yuni，带它去乔治城玩耍（虽然好像一直是你在遛它哈哈）。" +
+        "我们还一起去看了林俊杰的演唱会，看了 DC 的樱花，在 DC 的一家 Omakase 给你过了生日。" + 
+        "但其实，那段时间的我压力很大。从伦敦的十月开始，我就一直在投简历，却迟迟没有回应，焦虑一点点累积。在巴尔的摩的日子里，这种情绪也没有消散，我一边备考 CFA 和 FRM，一边被不确定的未来困住。" + 
+        "虽然有你在身边，已经让我好很多，但现在回想起来，那段时间的焦虑和压力，还是不自觉地变成了一些情绪和脾气，给到了你，也在我们的感情里留下了一些不那么美好的痕迹。" + 
+        "但即便如此，我从不后悔当初选择陪你去巴尔的摩。只是那时候的我太不成熟，没办法同时处理好自己的情绪、工作的压力、对未来的焦虑，以及对你的感情。",
+        images:[
+          "images/20230120.jpg",
+          "images/20230120_2.jpg",
+          "images/20230120_3.jpg",
+          "images/20230120_4.jpg"
+        ]
+      },
+      {
+        date: "2023年5月20日",
+        title:"你毕业了！我考完了！我们出发去旅行gogogo！！！HAWAII我们来啦",
+        text: "我们一起开启了夏威夷的旅行——Aloha！是一段无比放松的度假时光。我们一起看星星，去 Mauna Kea 看壮阔、绝美的云海；" + 
+        "在 Honolulu 逛吃逛吃，去海边，光着脚踩在柔软的沙滩上慢慢散步，一边走一边说着话；你看着我去游泳，海风轻轻吹着，一切都太美好了。" ,
+        images:[
+          "images/20230520.jpg",
+          "images/20230520_1.jpg",
+          "images/20230520_2.jpg",
+          "images/20230520_3.jpg",
+          "images/20230520_4.jpg",
+          "images/20230520_5.jpg"
+        ]
+      },
+      {
+        date: "2023年6月4日",
+        title:"我要离开美国了呜呜呜，念念，我很舍不得你",
+        text: "我回国了，真的很舍不得念念，也不想把她一个人留在美国。但现实摆在面前，我必须回去找工作。找了大半年却始终没有消息，那种无力和压力一点点把我压垮。" +
+        "那段时间是我状态很崩溃的一段日子——见不到你，工作也没有着落。后来我不想再让自己停在原地，就决定先去厦门接一份实习，让自己重新动起来。" + 
+        "同时，我也开始焦虑我们的未来。看到太多情侣在毕业、工作、异地中走散，我也忍不住担心，这些现实的问题，会不会也让我们走散。我要努力让这种事情不发生！" ,
+        image: "images/20230604.jpg"
+      },
+      {
+        date: "2023年9月22日",
+        title:"念念回国后，飞来厦门找我啦！！！",
+        text: "我终于盼到你回国啦！这是我们第一次在国内见面，有太多想和你去的地方要一起探索。我们今年先后游了厦门、成都、苏州、杭州、连云港、南京、绍兴、长沙，每一次旅行都让我很难忘。果然，只有和你在一起，我的生活才有了颜色。" ,
+        images:[
+          "images/20230922.jpg",
+          "images/20230922_1.jpg",
+          "images/20230922_2.jpg",
+          "images/20230922_3.jpg",
+        ]
+      },
+      {
+        date: "2023年11月17日",
+        title:"从我的城市到你的城市",
+        text: "我们正式见了彼此的家长！和你在一起，不仅是喜欢和恋爱的感觉而已，更是踏实和责任的感觉。能和你一起经历这些人生重要的时刻，我真的很开心，也很感激。" + 
+        "未来的路虽然有挑战，但有你和我一起努力，再困难也不孤单。我们都在很努力找工作，真的太难了，压力满满，呜呜呜……希望一切都能顺顺利利的！" ,
+        images:[
+          "images/20231117.jpg",
+          "images/20231117_2.jpg",
+          "images/20231117_3.jpg",
+          "images/20231117_4.jpg",
+          "images/20231117_5.jpg",
+          "images/20231117_6.jpg",
+        ]
+      },
+      {
+        date: "2024年1月-9月",
+        title:"超超和念念的异地恋日记-终篇：香港和上海",
+        text: "" ,
+        image: "images/20220922.jpg"
+      },
+      {
+        date: "2022年8月-12月",
+        title:"",
+        text: "" ,
+        image: "images/20220922.jpg"
+      },
     ];
 
-    // 动态加载图片
-    const gallery = document.getElementById('gallery');
-    
-    // 加载图片函数
-    function loadImages() {
-      images.forEach(src => {
-        const img = document.createElement('img');
-        img.src = src;
-        img.alt = "Memory Photo";
-        img.onclick = function() { openModal(this.src); };
-        gallery.appendChild(img);
+    const timelineContainer = document.getElementById('timeline-container');
+
+    // 动态渲染时间轴功能
+    function renderTimeline() {
+      storyData.forEach((item, index) => {
+        // PC端左右交替显示（偶数左，奇数右）
+        const sideClass = index % 2 === 0 ? 'left' : 'right';
+        
+        const timelineItem = document.createElement('div');
+        timelineItem.className = `timeline-item ${sideClass}`;
+        
+        // 构建卡片内部HTML
+        let contentHTML = `
+          <div class="timeline-content">
+            <div class="timeline-date">${item.date}</div>
+            <h3 class="timeline-title">${item.title}</h3>
+            <p class="timeline-text">${item.text}</p>
+        `;
+        
+        // 兼容单张图片(image)和多张图片(images数组)
+        let itemImages = [];
+        if (item.images && Array.isArray(item.images)) {
+          itemImages = item.images;
+        } else if (item.image) {
+          itemImages = [item.image];
+        }
+        
+        // 如果有图片，则渲染图片容器
+        if (itemImages.length > 0) {
+          const isSingle = itemImages.length === 1;
+          contentHTML += `<div class="timeline-images ${isSingle ? 'single-image' : ''}">`;
+          itemImages.forEach(imgSrc => {
+            contentHTML += `<img src="${imgSrc}" class="timeline-img" alt="${item.title}" onclick="openModal(this.src)">`;
+          });
+          contentHTML += `</div>`;
+        }
+        
+        contentHTML += `</div>`;
+        timelineItem.innerHTML = contentHTML;
+        timelineContainer.appendChild(timelineItem);
       });
     }
 
-    // 页面加载完成后执行
+    // 页面加载完成后执行渲染
     window.onload = function() {
-      loadImages();
+      renderTimeline();
     };
 
-    // 显示爱心消息
+    // 底部情话显示逻辑
     function revealLove() {
       document.getElementById("loveMessage").style.display = "block";
+      document.getElementById("revealBtn").style.display = "none";
     }
 
-    // 图片模态框功能
+    // ==========================================
+    // 图片模态框功能逻辑（点击图片放大）
+    // ==========================================
     const modal = document.getElementById("imageModal");
     const modalImg = document.getElementById("modalImg");
     const closeBtn = document.getElementsByClassName("close")[0];
 
+    // 打开模态框
     function openModal(imgSrc) {
       modal.style.display = "block";
       modalImg.src = imgSrc;
+      // 弹出时禁止背景滚动
+      document.body.style.overflow = "hidden";
     }
 
-    // 点击关闭按钮关闭模态框
+    // 点击右上角X关闭
     closeBtn.onclick = function() {
       modal.style.display = "none";
+      document.body.style.overflow = "auto";
     }
 
-    // 点击模态框外部关闭模态框
+    // 点击黑色背景处关闭
     window.onclick = function(event) {
       if (event.target == modal) {
         modal.style.display = "none";
+        document.body.style.overflow = "auto";
       }
     }
   </script>
